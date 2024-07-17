@@ -25,7 +25,7 @@ if (isLoggedin() === true) {
                     <div class="col-12 text-center">
                         <h1><?= TITLE ?> | Login</h1>
                     </div>
-                    <div class="col-12 col-md-4 mx-auto">
+                    <div class="col-10 col-md-3 mx-auto">
                         <?php
                         if (isset($_POST['submit'])) :
                             $e = $_POST['email'];
@@ -48,8 +48,9 @@ if (isLoggedin() === true) {
                                     </div>
                                 </div>
                                 <div class="col-12 mb-3">
-                                    <div class="form-group">
-                                        <button type="submit" name="submit" id="submit" class="d-block mx-auto mx-md-0 ms-md-auto w-25 btn btn-primary">Login</button>
+                                    <div class="form-group d-flex justify-content-between">
+                                        <a href="./register.php" class="btn btn-secondary">Register</a>
+                                        <button type="submit" name="submit" id="submit" class="btn btn-primary">Login</button>
                                     </div>
                                 </div>
                             </div>

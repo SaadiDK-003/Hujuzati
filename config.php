@@ -7,6 +7,8 @@ define('DB_NAME', 'coffee_latera');
 define('DIR_PATH', __DIR__);
 define('FILE_PATH', __FILE__);
 define('TITLE', 'Coffee Latera');
+define('FOLDER', 'Hujuzati');
 
 $host = $_SERVER['HTTP_HOST'];
-define('SITE_URL', ($host == 'localhost') ? 'http://' . $host . '/' . TITLE : 'https://' . $host . '/' . TITLE);
+define('SITE_URL', ($host == 'localhost') ? 'http://' . $host . '/' . FOLDER : 'https://' . $host . '/' . FOLDER);
+echo SITE_URL;
