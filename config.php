@@ -11,4 +11,3 @@ define('FOLDER', 'Hujuzati');
 
 $host = $_SERVER['HTTP_HOST'];
 define('SITE_URL', ($host == 'localhost') ? 'http://' . $host . '/' . FOLDER : 'https://' . $host . '/' . FOLDER);
-echo SITE_URL;
