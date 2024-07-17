@@ -262,6 +262,17 @@ body {
       }
     }
   }
+  &.visitor_dashboard {
+    table {
+      &#example {
+        th,
+        td {
+          text-align: center;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
 }
 
 @keyframes text_reval {

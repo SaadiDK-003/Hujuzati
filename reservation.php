@@ -21,7 +21,7 @@ if (isLoggedin() === false) {
 <body class="reservation_page">
     <?php include_once './includes/header.php'; ?>
     <main>
-        <section class="login">
+        <section class="reservation">
             <div class="container my-5">
                 <div class="row">
                     <div class="col-12 text-center">

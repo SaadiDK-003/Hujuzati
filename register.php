@@ -16,10 +16,10 @@ if (isLoggedin() === true) {
     <link rel="stylesheet" href="./css/style.min.css">
 </head>
 
-<body class="login_page">
+<body class="register_page">
     <?php include_once './includes/header.php'; ?>
     <main>
-        <section class="login">
+        <section class="registration">
             <div class="container my-5">
                 <div class="row">
                     <div class="col-12 text-center">
