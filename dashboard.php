@@ -1,6 +1,6 @@
 <?php
 require_once './core/database.php';
-if (isLoggedin() === false && $userRole != 'visitor') {
+if (isLoggedin() === false || $userRole == 'cafe_owner') {
     header('Location: login.php');
 }
 ?>
