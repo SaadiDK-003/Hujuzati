@@ -26,33 +26,31 @@ if (isLoggedin() === false) {
                 <div class="row">
                     <div class="col-12 text-center">
                         <h1>Reservation</h1>
+                        <span class="showResponse w-50 mx-auto"></span>
                     </div>
                     <div class="col-12 col-md-8 mx-auto">
                         <form id="reservation-form" method="post">
                             <div class="row">
-                                <!-- <div class="col-12 col-md-6 mb-3">
-                                    <div class="form-group">
-                                        <label for="name">Name <span class="text-danger">*</span></label>
-                                        <input type="text" name="name" id="name" class="form-control" required>
-                                    </div>
-                                </div>
                                 <div class="col-12 col-md-6 mb-3">
                                     <div class="form-group">
-                                        <label for="email">Email <span class="text-danger">*</span></label>
-                                        <input type="email" name="email" id="email" class="form-control" required>
+                                        <label for="cafe">Cafe</label>
+                                        <select name="cafe" id="cafe" class="form-select" required>
+                                            <option value="" selected hidden>Select Cafe</option>
+                                            <?php
+                                            $c_list = $db->query("CALL `select_all_cafe`()");
+                                            while ($cafe_list = mysqli_fetch_object($c_list)) : ?>
+                                                <option value="<?= $cafe_list->cafeID ?>"><?= $cafe_list->store_name ?></option>
+                                            <?php endwhile;
+                                            $c_list->close();
+                                            $db->next_result();
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <div class="form-group">
-                                        <label for="phone">Phone <span class="text-danger">*</span></label>
-                                        <input type="tel" name="phone" id="phone" class="form-control" required>
-                                    </div>
-                                </div> -->
                                 <div class="col-12 col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="start-time">Date & Time <span class="text-danger">*</span></label>
                                         <input type="datetime-local" name="start_time" id="start-time" class="form-control" required>
-                                        <input type="hidden" name="end_time" id="end" value="">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
@@ -90,22 +88,6 @@ if (isLoggedin() === false) {
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
                                     <div class="form-group">
-                                        <label for="cafe">Cafe</label>
-                                        <select name="cafe" id="cafe" class="form-select" required>
-                                            <option value="" selected hidden>Select Cafe</option>
-                                            <?php
-                                            $c_list = $db->query("CALL `select_all_cafe`()");
-                                            while ($cafe_list = mysqli_fetch_object($c_list)) : ?>
-                                                <option value="<?= $cafe_list->cafeID ?>"><?= $cafe_list->store_name ?></option>
-                                            <?php endwhile;
-                                            $c_list->close();
-                                            $db->next_result();
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <div class="form-group">
                                         <label for="events">Events</label>
                                         <select name="events" id="events" class="form-select">
                                             <option value="" selected hidden>Select Event</option>
@@ -115,11 +97,15 @@ if (isLoggedin() === false) {
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-12 mb-3 cafe_info d-none">
+                                    <div class="render_cafe_info"></div>
+                                </div>
                                 <div class="col-12 col-md-6 mb-3">
                                     <h6 class="text-secondary">Fields with <span class="text-danger">*</span> are mandatory</h6>
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
                                     <div class="form-group">
+                                        <input type="hidden" name="end_time" id="end" value="">
                                         <button type="submit" id="submit" class="d-block mx-auto mx-md-0 ms-md-auto w-25 btn btn-primary">Submit</button>
                                     </div>
                                 </div>
@@ -136,12 +122,29 @@ if (isLoggedin() === false) {
     <script>
         $(document).ready(function() {
 
-            // Add a custom validation method
+            // Add a custom validation method to check future date and time
             $.validator.addMethod("futureDateTime", function(value, element) {
                 var selectedDateTime = new Date(value);
                 var currentDateTime = new Date();
                 return selectedDateTime >= currentDateTime;
             }, "Please select a current or future date and time.");
+
+            // Add a custom validation method to check if the time is within store hours
+            $.validator.addMethod("withinStoreHours", function(value, element) {
+                let storeOpenTime = $("#start-time").data("storeOpenTime");
+                let storeCloseTime = $("#start-time").data("storeCloseTime");
+
+                if (!storeOpenTime || !storeCloseTime) {
+                    return true; // Skip validation if store hours are not set yet
+                }
+
+                var selectedDate = new Date(value);
+                var selectedTime = selectedDate.getHours() * 60 + selectedDate.getMinutes();
+                var storeOpenMinutes = parseInt(storeOpenTime.split(':')[0]) * 60 + parseInt(storeOpenTime.split(':')[1]);
+                var storeCloseMinutes = parseInt(storeCloseTime.split(':')[0]) * 60 + parseInt(storeCloseTime.split(':')[1]);
+
+                return selectedTime >= storeOpenMinutes && selectedTime <= storeCloseMinutes;
+            }, "Please select a time within the store's opening hours.");
 
             $("#cafe").on('change', function(e) {
                 e.preventDefault();
@@ -153,16 +156,41 @@ if (isLoggedin() === false) {
                         cafeID: cafeID
                     },
                     success: function(res) {
+                        $(".cafe_info").removeClass("d-none");
+                        $(".render_cafe_info").html(res);
 
+                        const date = new Date();
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const hours = String(date.getHours()).padStart(2, '0');
+                        const minutes = String(date.getMinutes()).padStart(2, '0');
+                        const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+
+                        // Get store open and close times
+                        let storeOpenTime = $("#store_open_time").val();
+                        let storeCloseTime = $("#store_close_time").val();
+                        // console.log(currentDate);
+                        $("#start-time").val(formattedDate);
+
+                        $("#start-time").data("storeOpenTime", storeOpenTime);
+                        $("#start-time").data("storeCloseTime", storeCloseTime);
                     }
                 });
             });
 
-
             $("#reservation-form").validate({
                 rules: {
                     "start_time": {
-                        futureDateTime: true
+                        futureDateTime: true,
+                        withinStoreHours: true
+                    }
+                },
+                messages: {
+                    "start_time": {
+                        futureDateTime: "Please select a current or future date and time.",
+                        withinStoreHours: "Please select a time within the store's opening hours."
                     }
                 },
                 submitHandler: function(form) {
@@ -172,8 +200,12 @@ if (isLoggedin() === false) {
                         url: "ajax/reservationForm.php",
                         method: "POST",
                         data: formData,
-                        success: function(res) {
-                            console.log(res);
+                        success: function(response) {
+                            let res = JSON.parse(response);
+                            $(".showResponse").addClass(`d-block alert alert-${res.status}`).html(res.msg);
+                            setTimeout(() => {
+                                $(".showResponse").removeClass(`d-block alert alert-${res.status}`).html('');
+                            }, 1800);
                         }
                     })
                 }
@@ -182,9 +214,11 @@ if (isLoggedin() === false) {
             $("#start-time").on("change", function(e) {
                 e.preventDefault();
                 let date1 = $(this).val();
+                console.log(date1);
                 var d1 = new Date(date1);
-                d2 = new Date(d1);
-                d2.setMinutes(d1.getMinutes() + 180);
+                var d2 = new Date(d1);
+                d2.setMinutes(d1.getMinutes() + 30);
+
                 // Formatting d2 to "yyyy-MM-ddTHH:mm"
                 let year = d2.getFullYear();
                 let month = String(d2.getMonth() + 1).padStart(2, "0"); // Months are zero-based, so add 1

@@ -213,6 +213,55 @@ body {
       }
     }
   }
+
+  &.reservation_page {
+    #reservation-form {
+      .render_cafe_info {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 5px 3px #eee inset, 0 0 8px 5px #eee inset;
+        text-align: center;
+        .grid-box {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          .item {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            &:not(:last-child) {
+              &::after {
+                content: "";
+                position: absolute;
+                width: 2px;
+                height: 100%;
+                background-color: var(--light-gray);
+                top: 0;
+                right: -2px;
+              }
+            }
+          }
+          @include responsive("mobile") {
+            grid-template-columns: repeat(1, 1fr);
+            row-gap: 10px;
+            .item {
+              &:not(:last-child) {
+                &::after {
+                  width: 100%;
+                  height: 2px;
+                  left: 0;
+                  top: auto;
+                  right: auto;
+                  bottom: -7px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @keyframes text_reval {
