@@ -19,10 +19,10 @@ require_once './core/database.php';
         <section class="menu">
             <div class="container my-5">
                 <div class="row">
-                    <div class="col-3 mb-4">
-                        <div class="card border rounded-2 p-3 d-flex justify-content-between">
-                            <div class="img mx-auto">
-                                <img src="./img/prod/cold_drink.jpg" class="rounded-2 mx-auto" alt="product-img">
+                    <div class="col-10 col-md-3 mx-auto mx-md-0 mb-4">
+                        <div class="card border rounded-2 p-2 d-flex justify-content-between">
+                            <div class="img overflow-hidden rounded-2">
+                                <img src="./img/prod/cold_drink.jpg" class="w-100" alt="product-img">
                             </div>
                             <div class="content">
                                 <div class="title d-flex justify-content-between">

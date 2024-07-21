@@ -249,10 +249,11 @@ body {
   }
   &.menu_page {
     .card {
-      min-height: 350px;
+      min-height: 380px;
       .img {
         display: flex;
-        height: 150px;
+        width: 100%;
+        height: 180px;
       }
     }
   }
