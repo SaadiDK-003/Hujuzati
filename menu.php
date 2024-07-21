@@ -19,15 +19,17 @@ require_once './core/database.php';
         <section class="menu">
             <div class="container my-5">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-3 mb-4">
                         <div class="card border rounded-2 p-3 d-flex justify-content-between">
-                            <div class="img w-75 mx-auto">
-                                <img src="./img/prod/" class="mx-auto" alt="product-img">
+                            <div class="img mx-auto">
+                                <img src="./img/prod/cold_drink.jpg" class="rounded-2 mx-auto" alt="product-img">
                             </div>
                             <div class="content">
-                                <h5>Shad Perkins</h5>
+                                <div class="title d-flex justify-content-between">
+                                    <h5>Shad Perkins</h5><span class="category h6 text-secondary">Offers</span>
+                                </div>
                                 <span class="disc-price fw-bold text-success">$150.00</span>
-                                <span class="reg-price text-decoration-line-through text-secondary">$200.00</span>
+                                <span class="reg-price text-decoration-line-through text-danger">$200.00</span>
                                 <p class="line-clamp-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo porro, soluta dolor quas temporibus atque.</p>
                             </div>
                         </div>
