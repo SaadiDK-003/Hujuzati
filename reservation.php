@@ -50,7 +50,7 @@ if (isLoggedin() === false) {
                                 <div class="col-12 col-md-6 mb-3">
                                     <div class="form-group">
                                         <label for="start-time">Date & Time <span class="text-danger">*</span></label>
-                                        <input type="datetime-local" name="start_time" id="start-time" class="form-control" required>
+                                        <input type="datetime-local" name="start_time" id="start-time" class="form-control" required disabled>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
@@ -148,6 +148,7 @@ if (isLoggedin() === false) {
 
             $("#cafe").on('change', function(e) {
                 e.preventDefault();
+                $("#start-time").removeAttr('disabled');
                 let cafeID = $(this).val();
                 $.ajax({
                     url: 'ajax/cafe_info.php',
@@ -164,7 +165,7 @@ if (isLoggedin() === false) {
                         const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
                         const day = String(date.getDate()).padStart(2, '0');
                         const hours = String(date.getHours()).padStart(2, '0');
-                        const minutes = String(date.getMinutes()).padStart(2, '0');
+                        const minutes = String(date.getMinutes() + 3).padStart(2, '0');
                         const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
 
 

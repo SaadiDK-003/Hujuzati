@@ -1,6 +1,14 @@
 <?php
 require_once 'database.php';
 
+// Check User is Loggedin or not
+function isLoggedin()
+{
+    return isset($_SESSION['user']) ? true : false;
+}
+
+
+// This function will take login credentials and check if user is valid create a session by his " ID "
 function login($email, $pwd)
 {
     global $db;
@@ -23,8 +31,7 @@ function login($email, $pwd)
     return $result;
 }
 
-// Registration Visitor
-
+// Registration for ( VISITOR AND CAFE_OWNER )
 function register($POST)
 {
     global $db;
@@ -60,7 +67,81 @@ function register($POST)
 }
 
 
-function isLoggedin()
+function Add_Product($POST, $FILE, $cafe_owner_id, $CafeID)
 {
-    return isset($_SESSION['user']) ? true : false;
+    global $db;
+    $targetDir = './img/prod/';
+    $statusMsg = '';
+
+    $prod_name = $POST['prod_name'];
+    $reg_price = $POST['prod_reg_price'];
+    $disc_price =  $POST['prod_disc_price'];
+    $prod_desc = $POST['prod_desc'];
+    $cat_id = $POST['category_id'];
+
+    if (!empty($prod_name) && !empty($reg_price)) {
+        if (!empty($FILE["prod_img"]["name"])) {
+
+            $fileName = basename($FILE["prod_img"]["name"]);
+            $targetFilePath = $targetDir . $fileName;
+            $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+            //allow certain file formats
+            $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
+            if (in_array($fileType, $allowTypes)) {
+                //upload file to server
+                if (move_uploaded_file($FILE["prod_img"]["tmp_name"], $targetFilePath)) {
+
+                    $prod_Q = $db->query("INSERT INTO `products` (prod_name,prod_reg_price,prod_disc_price,prod_desc,prod_img,prod_category_id,cafe_owner_id,cafe_id) VALUES('$prod_name','$reg_price','$disc_price','$prod_desc','$targetFilePath','$cat_id','$cafe_owner_id','$CafeID')");
+
+                    if ($prod_Q) {
+
+                        $statusMsg = '<h6 class="alert alert-success w-75 text-center mx-auto">Product has been Added Successfully.</h6>
+                        <script>
+                            setTimeout(function(){
+                                window.location.href = "./cafeOwnerDashboard.php";
+                            },1800);
+                        </script>
+                        ';
+                    } else {
+                        $statusMsg = "Something went wrong!";
+                    }
+                } else {
+                    $statusMsg = "Sorry, there was an error uploading your file.";
+                }
+            } else {
+                $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+            }
+        } else {
+
+            $statusMsg = '<h6 class="alert alert-success w-50 text-center mx-auto">Please select a file to upload.</h6>';
+        }
+    } else {
+        echo $statusMsg = '<h6 class="alert alert-danger w-50 text-center mx-auto">Please fill out all fields.</h6>';
+    }
+    echo $statusMsg;
+}
+
+
+function Add_Cafe($POST, $userID)
+{
+    global $db;
+    $store_name = $POST['store_name'];
+    $store_open = $POST['store_open'];
+    $store_close = $POST['store_close'];
+    $store_location  = $POST['store_location'];
+    $msg = '';
+    $add_cafe_Q = $db->query("INSERT INTO `cafe` (store_name,store_location,store_open,store_close,users_id) VALUES('$store_name','$store_location','$store_open','$store_close','$userID')");
+    if ($add_cafe_Q) {
+        $msg = '<h6 class="alert alert-success w-50 text-center mx-auto">Cafe Added Successfully.</h6>
+        <script>
+            setTimeout(function(){
+                window.location.href = "./cafeOwnerDashboard.php";
+            },1800);
+        </script>
+        ';
+    } else {
+        $msg = '<h6 class="alert alert-danger w-50 text-center mx-auto">Something went wrong!</h6>';
+    }
+    return $msg;
 }

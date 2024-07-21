@@ -7,17 +7,19 @@
     <div class="container">
         <div class="row">
             <div class="col-2 content-center">
-                <img src="./img/logo_bg_black.png" class="w-25" alt="logo-1">
+                <a href="./">
+                    <img src="./img/logo_bg_black.png" class="w-25" alt="logo-1">
+                </a>
                 <!-- <h3>LOGO</h3> -->
             </div>
             <div class="col-7 content-center">
                 <ul class="navigation list-unstyled d-flex gap-5">
                     <li><a href="./">Home</a></li>
                     <li><a href="#!">About</a></li>
-                    <li><a href="#!">Menu</a></li>
+                    <li><a href="./menu.php">Menu</a></li>
                 </ul>
             </div>
-            <div class="col-3 content-center gap-3">
+            <div class="col-3 content-center gap-3 flex-column flex-md-row">
                 <?php if (isLoggedin() === true) : ?>
                     <a class="btn btn-primary border border-3" href="reservation.php">Reservation</a>
                     <?php if ($userRole == 'admin') : ?>
