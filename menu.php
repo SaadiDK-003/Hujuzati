@@ -22,12 +22,12 @@ require_once './core/database.php';
                     <div class="col-3">
                         <div class="card border rounded-2 p-3 d-flex justify-content-between">
                             <div class="img w-75 mx-auto">
-                                <img src="./img/prod/abc.png" class="mx-auto" alt="">
+                                <img src="./img/prod/" class="mx-auto" alt="product-img">
                             </div>
                             <div class="content">
                                 <h5>Shad Perkins</h5>
-                                <span class="reg-price">$200.00</span>
-                                <span class="disc-price">$150.00</span>
+                                <span class="disc-price fw-bold text-success">$150.00</span>
+                                <span class="reg-price text-decoration-line-through text-secondary">$200.00</span>
                                 <p class="line-clamp-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo porro, soluta dolor quas temporibus atque.</p>
                             </div>
                         </div>
