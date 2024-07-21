@@ -14,6 +14,7 @@ if (isset($_POST['cafeID'])) :
         </div>
         <div class="item">
             <div class="text"><span class="d-block fw-bold">Store Name</span><?= $cafe_data->store_name ?></div>
+            <div class="text"><a class="btn btn-primary btn-sm" href="./cafe_menu.php?cafe_id=<?= $cafeID ?>&cafe_name=<?= $cafe_data->store_name ?>" target="_blank">Cafe Menu</a></div>
         </div>
         <div class="item">
             <div class="text"><span class="d-block fw-bold">Store Location</span><?= $cafe_data->store_location ?></div>

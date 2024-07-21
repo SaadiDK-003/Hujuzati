@@ -87,7 +87,7 @@ function Add_Product($POST, $FILE, $cafe_owner_id, $CafeID)
             $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
             //allow certain file formats
-            $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
+            $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'webp');
             if (in_array($fileType, $allowTypes)) {
                 //upload file to server
                 if (move_uploaded_file($FILE["prod_img"]["tmp_name"], $targetFilePath)) {
@@ -110,7 +110,7 @@ function Add_Product($POST, $FILE, $cafe_owner_id, $CafeID)
                     $statusMsg = "Sorry, there was an error uploading your file.";
                 }
             } else {
-                $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+                $statusMsg = '<h6 class="alert alert-danger w-75 text-center mx-auto">Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.</h6>';
             }
         } else {
 

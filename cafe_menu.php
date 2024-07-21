@@ -1,5 +1,14 @@
 <?php
 require_once './core/database.php';
+if (isLoggedin() === false) {
+    header('Location: ./login.php');
+}
+$cafe_id = 0;
+$cafe_name = '';
+if (isset($_GET['cafe_id']) && isset($_GET['cafe_name'])) {
+    $cafe_id = $_GET['cafe_id'];
+    $cafe_name = $_GET['cafe_name'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -8,42 +17,53 @@ require_once './core/database.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= TITLE ?> | Menu</title>
+    <title><?= TITLE ?> | Cafe Menu</title>
     <?php include './includes/css_links.php'; ?>
     <link rel="stylesheet" href="./css/style.min.css">
 </head>
 
-<body class="menu_page">
+<body class="cafe_menu_page">
     <?php include_once './includes/header.php'; ?>
     <main>
-        <section class="menu">
+        <section class="cafe_menu">
             <div class="container my-5">
                 <div class="row">
                     <?php
-                    $prod_Q = $db->query("CALL `get_all_products`()");
-                    while ($list_p = mysqli_fetch_object($prod_Q)) :
-                    ?>
-                        <div class="col-10 col-md-3 mx-auto mx-md-0 mb-4">
-                            <div class="card border rounded-2 p-2 d-flex justify-content-between">
-                                <div class="img overflow-hidden rounded-2">
-                                    <img src="<?= $list_p->prod_img ?>" class="w-100" alt="product-img">
-                                </div>
-                                <div class="content position-relative">
-                                    <div class="title d-flex align-items-center justify-content-between">
-                                        <h5><?= $list_p->prod_name ?></h5><span class="bg-secondary text-white px-2 py-1 rounded-2 category h6"><?= $list_p->category_name ?></span>
+                    $prod_Q = $db->query("CALL `get_all_products_by_cafe_id`($cafe_id)");
+                    if (mysqli_num_rows($prod_Q) > 0) : ?>
+                        <div class="col-12">
+                            <h3 class="text-center mb-3"><?= $cafe_name ?></h3>
+                        </div>
+                        <?php
+                        while ($list_p = mysqli_fetch_object($prod_Q)) :
+                        ?>
+                            <div class="col-10 col-md-3 mx-auto mx-md-0 mb-4">
+                                <div class="card border rounded-2 p-2 d-flex justify-content-between">
+                                    <div class="img overflow-hidden rounded-2">
+                                        <img src="<?= $list_p->prod_img ?>" class="w-100" alt="product-img">
                                     </div>
-                                    <?php if ($list_p->prod_disc_price != 0.00) : ?>
-                                        <span class="disc-price fw-bold text-success">$<?= $list_p->prod_disc_price ?></span>
-                                        <span class="reg-price text-decoration-line-through text-danger">$<?= $list_p->prod_reg_price ?></span>
-                                    <?php else : ?>
-                                        <span class="reg-price fw-bold">$<?= $list_p->prod_reg_price ?></span>
-                                    <?php endif; ?>
-                                    <p class="line-clamp-2"><?= $list_p->prod_desc ?></p>
-                                    <a href="#!" data-id="<?= $list_p->cafe_id ?>" class="btn btn-primary btn-sm cafe-info">Cafe Info</a>
+                                    <div class="content position-relative">
+                                        <div class="title d-flex align-items-center justify-content-between">
+                                            <h5><?= $list_p->prod_name ?></h5><span class="bg-secondary text-white px-2 py-1 rounded-2 category h6"><?= $list_p->category_name ?></span>
+                                        </div>
+                                        <?php if ($list_p->prod_disc_price != 0.00) : ?>
+                                            <span class="disc-price fw-bold text-success">$<?= $list_p->prod_disc_price ?></span>
+                                            <span class="reg-price text-decoration-line-through text-danger">$<?= $list_p->prod_reg_price ?></span>
+                                        <?php else : ?>
+                                            <span class="reg-price fw-bold">$<?= $list_p->prod_reg_price ?></span>
+                                        <?php endif; ?>
+                                        <p class="line-clamp-2"><?= $list_p->prod_desc ?></p>
+                                        <a href="#!" data-id="<?= $list_p->cafe_id ?>" class="btn btn-primary btn-sm cafe-info d-none">Cafe Info</a>
+                                    </div>
                                 </div>
                             </div>
+                        <?php endwhile;
+                    else : ?>
+                        <div class="col-12 text-center">
+                            <h3 class="text-center">Sorry, no products found.</h3>
+                            <a href="./" class="btn btn-primary">Home</a>
                         </div>
-                    <?php endwhile; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>

@@ -282,10 +282,10 @@ body.visitor_dashboard_page table#example td {
   text-align: center;
   vertical-align: middle;
 }
-body.menu_page .card {
+body.menu_page .card, body.cafe_menu_page .card {
   min-height: 380px;
 }
-body.menu_page .card .img {
+body.menu_page .card .img, body.cafe_menu_page .card .img {
   display: flex;
   width: 100%;
   height: 180px;

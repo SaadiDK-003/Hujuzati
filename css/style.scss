@@ -247,7 +247,8 @@ body {
       }
     }
   }
-  &.menu_page {
+  &.menu_page,
+  &.cafe_menu_page {
     .card {
       min-height: 380px;
       .img {
