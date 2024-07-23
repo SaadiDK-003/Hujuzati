@@ -47,10 +47,10 @@ if (isset($_GET['cafe_id']) && isset($_GET['cafe_name'])) {
                                             <h5><?= $list_p->prod_name ?></h5><span class="bg-secondary text-white px-2 py-1 rounded-2 category h6"><?= $list_p->category_name ?></span>
                                         </div>
                                         <?php if ($list_p->prod_disc_price != 0.00) : ?>
-                                            <span class="disc-price fw-bold text-success">$<?= $list_p->prod_disc_price ?></span>
-                                            <span class="reg-price text-decoration-line-through text-danger">$<?= $list_p->prod_reg_price ?></span>
+                                            <span class="disc-price fw-bold text-success"><?= CURRENCY ?><?= $list_p->prod_disc_price ?></span>
+                                            <span class="reg-price text-decoration-line-through text-danger"><?= CURRENCY ?><?= $list_p->prod_reg_price ?></span>
                                         <?php else : ?>
-                                            <span class="reg-price fw-bold">$<?= $list_p->prod_reg_price ?></span>
+                                            <span class="reg-price fw-bold"><?= CURRENCY ?><?= $list_p->prod_reg_price ?></span>
                                         <?php endif; ?>
                                         <p class="line-clamp-2"><?= $list_p->prod_desc ?></p>
                                         <a href="#!" data-id="<?= $list_p->cafe_id ?>" class="btn btn-primary btn-sm cafe-info d-none">Cafe Info</a>
