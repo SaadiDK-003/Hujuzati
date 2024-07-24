@@ -145,3 +145,63 @@ function Add_Cafe($POST, $userID)
     }
     return $msg;
 }
+
+
+function edit_user($POST)
+{
+    global $db;
+    $pwd = '';
+    $old_owd = $POST['old_pwd'];
+    $password =  $POST['password'];
+
+    $user_id =  $POST['user_id'];
+    $name =  $POST['name'];
+    $email =  $POST['email'];
+    $phone =  $POST['phone'];
+
+    if ($password == '') {
+        $pwd = $old_owd;
+    } else {
+        $pwd = md5($password);
+    }
+
+    $upd_Q = $db->query("UPDATE `users` SET `name`='$name', `email`='$email', `password`='$pwd', `phone`='$phone' WHERE `id`='$user_id'");
+
+    if ($upd_Q) {
+        echo '<h6 class="text-center alert alert-success">' . $name . ' has been updated successfully.</h6>
+        <script>
+        setTimeout(function(){
+            window.location.href = "./adminDashboard.php";
+        }, 1800);
+        </script>
+        ';
+    }
+}
+
+function add_user($POST)
+{
+    global $db;
+    $cols = '';
+    $values = '';
+    $POST['password'] = md5($POST['password']);
+    foreach ($POST as $key => $value) {
+        if ($key != 'submit') {
+            $cols .= $key . ',';
+            $values .= "'" . $value . "',";
+        }
+    }
+    $cols = substr($cols, 0, strlen($cols) - 1);
+    $values = substr($values, 0, strlen($values) - 1);
+
+    $add_Q = $db->query("INSERT INTO `users` ($cols) VALUES($values)");
+
+    if ($add_Q) {
+        echo '<h6 class="text-center alert alert-success">User has been added successfully.</h6>
+        <script>
+        setTimeout(function(){
+            window.location.href = "./adminDashboard.php";
+        }, 1800);
+        </script>
+        ';
+    }
+}

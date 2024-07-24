@@ -26,11 +26,12 @@ if (isLoggedin() === false || $userRole != 'admin') {
                         <h1>Dashboard</h1>
                         <h5>Welcome, <?= $userName ?></h5>
                     </div>
-                    <div class="col-12 my-5">
+                    <div class="col-12 my-5 position-relative">
                         <div class="d-flex justify-content-center gap-3">
-                            <a href="#!" class="btn btn-secondary">Add Users</a>
+                            <a href="./add_users.php" class="btn btn-secondary">Add Users</a>
                             <a href="#!" class="btn btn-primary">Add Categories</a>
                         </div>
+                        <span id="del-msg" class="position-absolute top-0 end-0 alert"></span>
                     </div>
                     <div class="col-12">
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -54,7 +55,7 @@ if (isLoggedin() === false || $userRole != 'admin') {
                                         <td><?= $getRow->name ?></td>
                                         <td><?= $getRow->email ?></td>
                                         <td><?= $getRow->role ?></td>
-                                        <td><a href="#!" class="btn btn-secondary btn-sm edit-id" data-id="<?= $getRow->id ?>">Edit</a>
+                                        <td><a href="edit_users.php?id=<?= $getRow->id ?>" class="btn btn-secondary btn-sm">Edit</a>
                                             <a href="#!" class="btn btn-danger btn-sm del-id" data-id="<?= $getRow->id ?>">Delete</a>
                                         </td>
                                     </tr>
@@ -130,6 +131,16 @@ if (isLoggedin() === false || $userRole != 'admin') {
         </div>
     </div>
 
+    <div class="toast-container position-absolute p-3 bottom-0 end-0">
+        <div class="toast align-items-center text-white bg-danger border-0" data-bs-animation="true" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
 
     <?php include './includes/js_links.php'; ?>
 
@@ -155,6 +166,28 @@ if (isLoggedin() === false || $userRole != 'admin') {
                         $("#shopClose").html('close: ' + res.shopClose);
                     }
                 });
+            });
+            $(document).on('click', '.del-id', function(e) {
+                e.preventDefault();
+
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: 'ajax/user_req.php',
+                    method: 'post',
+                    data: {
+                        del_id: id
+                    },
+                    success: function(response) {
+                        let res = JSON.parse(response);
+                        $(".toast-body").html(res.msg);
+                        $(".toast").toast('show');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                });
+
             });
         });
     </script>

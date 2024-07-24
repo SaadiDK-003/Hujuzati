@@ -32,7 +32,7 @@
                     <a class="btn btn-danger border border-3" href="logout.php">Logout</a>
                 <?php else : ?>
                     <a class="btn btn-primary border border-3" href="./login.php">Reservation</a>
-                    <!-- <a class="btn btn-success border border-3" href="./login.php">Login</a> -->
+                    <a class="btn btn-success border border-3" href="./login.php">Login</a>
                 <?php endif; ?>
             </div>
         </div>

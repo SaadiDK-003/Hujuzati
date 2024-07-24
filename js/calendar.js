@@ -1,6 +1,6 @@
 $.bsCalendar.setDefaults({
   locale: "en",
-  url: "ajax/actions.php",
+  url: "ajax/calendar_req.php",
   classes: {
     tableData: {
       notInMonth: "text-muted fw-small border-0 opacity-25",
@@ -55,7 +55,7 @@ $("#calendar_inline").bsCalendar({
     },
   },
   dataSource(data) {
-    return $.getJSON("ajax/actions.php").then((json) => {
+    return $.getJSON("ajax/calendar_req.php").then((json) => {
       return json;
     });
   },
