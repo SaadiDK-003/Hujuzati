@@ -135,6 +135,16 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
         </div>
     </div>
 
+    <div class="toast-container position-absolute p-3 bottom-0 end-0">
+        <div class="toast align-items-center text-white bg-danger border-0" data-bs-animation="true" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    User has been deleted.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
 
     <?php include './includes/js_links.php'; ?>
 
@@ -160,6 +170,27 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                         $("#shopClose").html('close: ' + res.shopClose);
                     }
                 });
+            });
+
+            $(document).on('click', '.del-info', function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: 'ajax/reservationForm.php',
+                    method: 'post',
+                    data: {
+                        del_res: id
+                    },
+                    success: function(response) {
+                        let res = JSON.parse(response);
+                        $('.toast').toast('show');
+                        $('.toast-body').html(res.msg);
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                })
             });
         });
     </script>

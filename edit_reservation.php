@@ -8,7 +8,9 @@ $edit_res_id = 0;
 if (isset($_GET['id'])) {
     $edit_res_id = $_GET['id'];
 }
-$edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
+// $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
+
+$edit_r_Q = $db->query("CALL `edit_reservation_visitor`($edit_res_id)");
 ?>
 
 
@@ -30,15 +32,15 @@ $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
             <div class="container my-5">
                 <?php if (mysqli_num_rows($edit_r_Q) > 0) :
                     $get_r_data = mysqli_fetch_object($edit_r_Q);
-
+                    $db->next_result();
+                    $disabled = '';
                     $datetime1 = new DateTime();
                     $datetime2 = new DateTime($get_r_data->created_date);
                     $interval = $datetime1->diff($datetime2);
-                    // $elapsed = $interval->format('%y years %m months %a days %h hours %i minutes %s seconds');
-                    $elapsed = $interval->format('%i');
-                    // echo $elapsed . ' mints';
-                    $disabled = '';
-                    ($elapsed >= 30) ? $disabled = 'disabled' : '';
+                    $elapsed = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i;
+                    $disabled = ($elapsed >= 30) ? 'disabled' : '';
+                    // echo $elapsed;
+
                 ?>
                     <div class="row">
                         <div class="col-12 text-center">
@@ -46,7 +48,7 @@ $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
                             <span class="showResponse w-50 mx-auto"></span>
                         </div>
                         <div class="col-12 col-md-6 mx-auto">
-                            <?= ($elapsed >= 30) ? '<h6 class="text-center alert alert-warning">You can not change the reservation now, times up!</h6>' : '';
+                            <?= ($elapsed >= MINUTES_DIFF) ? '<h6 class="text-center alert alert-warning">You can not change the reservation now, times up!</h6>' : '<h6 class="text-center alert alert-info">With in ' . (MINUTES_DIFF - $elapsed) . ' minutes, you can edit your reservation.</h6>';
                             ?>
                         </div>
                         <div class="col-12 col-md-8 mx-auto">
@@ -56,7 +58,7 @@ $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
                                         <div class="form-group">
                                             <label for="cafe">Cafe</label>
                                             <select name="cafe" id="cafe" class="form-select" required <?= $disabled ?>>
-                                                <option value="" selected hidden>Select Cafe</option>
+                                                <option value="<?= $get_r_data->cafe_id ?>" selected hidden><?= $get_r_data->store_name ?></option>
                                                 <?php
                                                 $c_list = $db->query("CALL `select_all_cafe`()");
                                                 while ($cafe_list = mysqli_fetch_object($c_list)) : ?>
@@ -70,15 +72,15 @@ $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-group">
-                                            <label for="start-time">Date & Time <span class="text-danger">*</span></label>
-                                            <input type="datetime-local" name="start_time" id="start-time" class="form-control" required disabled>
+                                            <label for="start-time">Date & Time</label>
+                                            <input type="datetime-local" name="start_time" id="start-time" class="form-control" value="<?= $get_r_data->st ?>" required <?= $disabled ?>>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-group">
-                                            <label for="total-members">Total members <span class="text-danger">*</span></label>
+                                            <label for="total-members">Total members</label>
                                             <select name="total_members" id="total-members" class="form-select" required <?= $disabled ?>>
-                                                <option value="" selected hidden>Select Members</option>
+                                                <option value="<?= $get_r_data->tm ?>" selected hidden>Select Members</option>
                                                 <option value="1">Single Person</option>
                                                 <option value="2">Two Members</option>
                                                 <option value="3">Three Members</option>
@@ -87,9 +89,9 @@ $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-group">
-                                            <label for="total-tables">How many tables <span class="text-danger">*</span></label>
+                                            <label for="total-tables">How many tables</label>
                                             <select name="total_tables" id="total-tables" class="form-select" required <?= $disabled ?>>
-                                                <option value="" selected hidden>Select Tables</option>
+                                                <option value="<?= $get_r_data->tt ?>" selected hidden>Select Tables</option>
                                                 <option value="1">One Table</option>
                                                 <option value="2">Two Tables</option>
                                                 <option value="3">Three Tables</option>
@@ -98,9 +100,9 @@ $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-group">
-                                            <label for="table-location">Table Location <span class="text-danger">*</span></label>
+                                            <label for="table-location">Table Location</label>
                                             <select name="table_location" id="table-location" class="form-select" required <?= $disabled ?>>
-                                                <option value="" selected hidden>Select Table Location</option>
+                                                <option value="<?= $get_r_data->tl ?>" selected hidden>Select Table Location</option>
                                                 <option value="inside">Inside</option>
                                                 <option value="outside">Outside</option>
                                                 <option value="near-window">Near Window</option>
@@ -111,7 +113,7 @@ $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
                                         <div class="form-group">
                                             <label for="events">Events</label>
                                             <select name="events" id="events" class="form-select" <?= $disabled ?>>
-                                                <option value="" selected hidden>Select Event</option>
+                                                <option value="<?= $get_r_data->events ?>" selected hidden>Select Event</option>
                                                 <option value="">No Event</option>
                                                 <option value="birthday">Birthday</option>
                                                 <option value="anniversary">Anniversary</option>
@@ -122,11 +124,11 @@ $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
                                         <div class="render_cafe_info"></div>
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <h6 class="text-secondary">Fields with <span class="text-danger">*</span> are mandatory</h6>
+                                        <code class="fs-6">Leave fields which you don't wanna change.</code>
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-group">
-                                            <input type="hidden" name="end_time" id="end" value="">
+                                            <input type="hidden" name="end_time" id="end" value="<?= $get_r_data->et ?>">
                                             <input type="hidden" name="edit_res_id" value="<?= $edit_res_id ?>">
                                             <button type="submit" id="submit" class="d-block mx-auto mx-md-0 ms-md-auto w-25 btn btn-primary">Submit</button>
                                         </div>
@@ -229,7 +231,8 @@ $edit_r_Q = $db->query("SELECT * FROM `reservation` WHERE `id`='$edit_res_id'");
                             let res = JSON.parse(response);
                             $(".showResponse").addClass(`d-block alert alert-${res.status}`).html(res.msg);
                             setTimeout(() => {
-                                $(".showResponse").removeClass(`d-block alert alert-${res.status}`).html('');
+                                window.location.href = history.go(-1);
+                                // $(".showResponse").removeClass(`d-block alert alert-${res.status}`).html('');
                             }, 1800);
                         }
                     })
