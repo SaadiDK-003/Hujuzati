@@ -32,6 +32,10 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                             <a href="./add_products.php" class="btn btn-primary">Add Products</a>
                         <?php endif; ?>
                     </div>
+                    <!-- RESERVATION TABLE START -->
+                    <div class="col-12">
+                        <h3>Reservation Table</h3>
+                    </div>
                     <div class="col-12">
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead>
@@ -82,6 +86,65 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                             </tfoot>
                         </table>
                     </div>
+                    <!-- RESERVATION TABLE END -->
+
+                    <!-- PRODUCTS TABLE START -->
+                    <div class="col-12 mt-5">
+                        <h3>Products Table</h3>
+                    </div>
+                    <div class="col-12">
+                        <table id="example1" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Prod Name</th>
+                                    <th>Reg price</th>
+                                    <th>Disc Price</th>
+                                    <th>Prod Desc</th>
+                                    <th>Prod Img</th>
+                                    <th>Category Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $date = '';
+                                $getPR_Q = $db->query("CALL `get_all_products_by_cafe_id`($cafeOwner_CafeID)");
+                                while ($getPRow = mysqli_fetch_object($getPR_Q)) :
+                                ?>
+                                    <tr>
+                                        <td><?= $getPRow->p_id ?></td>
+                                        <td><?= $getPRow->prod_name ?></td>
+                                        <td><?= $getPRow->prod_reg_price ?></td>
+                                        <td><?= $getPRow->prod_disc_price ?></td>
+                                        <td><?= $getPRow->prod_desc ?></td>
+                                        <td><img width="60" height="60" class="rounded-2 mx-auto" src="<?= $getPRow->prod_img ?>" alt=""></td>
+                                        <td><?= $getPRow->category_name ?></td>
+                                        <td>
+                                            <a href="edit_product.php?id=<?= $getPRow->p_id ?>" class="btn btn-primary btn-sm">Edit</a>
+                                            <a href="#!" data-id="<?= $getPRow->p_id ?>" class="btn btn-danger btn-sm del-prod">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endwhile;
+                                $getPR_Q->close();
+                                $db->next_result();
+                                ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Prod Name</th>
+                                    <th>Reg price</th>
+                                    <th>Disc Price</th>
+                                    <th>Prod Desc</th>
+                                    <th>Prod Img</th>
+                                    <th>Category Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- PRODUCTS TABLE END -->
                 </div>
             </div>
         </section>
@@ -126,6 +189,17 @@ if (isLoggedin() === false || $userRole == 'visitor') {
     </div>
 
 
+    <div class="toast-container position-absolute p-3 bottom-0 end-0">
+        <div class="toast align-items-center text-white bg-danger border-0" data-bs-animation="true" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    User has been deleted.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
     <?php include './includes/js_links.php'; ?>
 
     <script>
@@ -145,10 +219,27 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                         $("#visitorName").html(res.visitorName);
                         $("#visitorEmail").html(res.visitorEmail);
                         $("#visitorPhone").html(res.visitorPhone);
-                        // $("#shopOpen").html(res.shopOpen);
-                        // $("#shopClose").html(res.shopClose);
                     }
                 });
+            });
+            $(document).on('click', '.del-prod', function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                $.ajax({
+                    url: 'ajax/prod_req.php',
+                    method: 'post',
+                    data: {
+                        del_prod: id
+                    },
+                    success: function(response) {
+                        let res = JSON.parse(response);
+                        $('.toast-body').html(res.msg);
+                        $(".toast").toast('show');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                })
             });
         });
     </script>

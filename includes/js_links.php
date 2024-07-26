@@ -8,7 +8,7 @@
 
 <script>
     $(document).ready(function() {
-        new DataTable('#example', {
+        new DataTable('#example, #example1', {
             responsive: true,
             ordering: false
         });

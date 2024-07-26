@@ -183,7 +183,8 @@ body {
     }
   }
 
-  &.reservation_page {
+  &.reservation_page,
+  &.edit_reservation_page {
     #reservation-form {
       .render_cafe_info {
         padding: 10px;
@@ -238,7 +239,8 @@ body {
   &.cafe_owner_dashboard_page,
   &.visitor_dashboard_page {
     table {
-      &#example {
+      &#example,
+      &#example1 {
         th,
         td {
           text-align: center;

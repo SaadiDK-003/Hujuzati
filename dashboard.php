@@ -55,7 +55,10 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                                         <td><?= $getRow->table_location ?></td>
                                         <td><?= ($getRow->events == '') ? '-' : $getRow->events ?></td>
                                         <td><a href="#!" class="btn btn-secondary cafe-id" data-id="<?= $getRow->cafe_id ?>">Cafe Info</a></td>
-                                        <td><a href="#!" data-id="<?= $getRow->r_id ?>" class="btn btn-primary btn-sm edit-info">Edit</a></td>
+                                        <td>
+                                            <a href="edit_reservation.php?id=<?= $getRow->r_id ?>" class="btn btn-primary btn-sm edit-info">Edit</a>
+                                            <a href="#!" data-id="<?= $getRow->r_id ?>" class="btn btn-danger btn-sm del-info">Delete</a>
+                                        </td>
                                     </tr>
                                 <?php endwhile;
                                 $getR_Q->close();

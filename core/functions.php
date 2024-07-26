@@ -110,7 +110,7 @@ function Add_Product($POST, $FILE, $cafe_owner_id, $CafeID)
                     $statusMsg = "Sorry, there was an error uploading your file.";
                 }
             } else {
-                $statusMsg = '<h6 class="alert alert-danger w-75 text-center mx-auto">Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.</h6>';
+                $statusMsg = '<h6 class="alert alert-danger w-75 text-center mx-auto">Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.</h6>';
             }
         } else {
 
@@ -119,6 +119,51 @@ function Add_Product($POST, $FILE, $cafe_owner_id, $CafeID)
     } else {
         echo $statusMsg = '<h6 class="alert alert-danger w-50 text-center mx-auto">Please fill out all fields.</h6>';
     }
+    echo $statusMsg;
+}
+
+
+function Edit_Product($POST, $FILE)
+{
+    global $db;
+    $targetDir = './img/prod/';
+    $statusMsg = '';
+    $upd_p_Q = '';
+
+    $c_id = $POST['c_id'];
+    $prod_name = $POST['prod_name'];
+    $reg_price = $POST['prod_reg_price'];
+    $disc_price =  $POST['prod_disc_price'];
+    $prod_desc = $POST['prod_desc'];
+    $cat_id = $POST['category_id'];
+
+    if (!empty($FILE['prod_img']['name'])) :
+
+        $fileName = basename($FILE["prod_img"]["name"]);
+        $targetFilePath = $targetDir . $fileName;
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+        //allow certain file formats
+        $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'webp');
+        if (in_array($fileType, $allowTypes)) :
+
+            if (move_uploaded_file($FILE["prod_img"]["tmp_name"], $targetFilePath)) :
+                $upd_p_Q = $db->query("UPDATE `products` SET `prod_name`='$prod_name', `prod_reg_price`='$reg_price', `prod_disc_price`='$disc_price', `prod_desc`='$prod_desc', `prod_img`='$targetFilePath', `prod_category_id`='$cat_id' WHERE `id`='$c_id'");
+                if ($upd_p_Q) :
+                    $statusMsg = '<h6 class="alert alert-success text-center">' . $prod_name . ' has been updated.</h6>';
+                endif;
+            endif;
+
+        else :
+            $statusMsg = '<h6 class="alert alert-danger w-75 text-center mx-auto">Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.</h6>';
+        endif;
+
+    else :
+        $upd_p_Q = $db->query("UPDATE `products` SET `prod_name`='$prod_name', `prod_reg_price`='$reg_price', `prod_disc_price`='$disc_price', `prod_desc`='$prod_desc', `prod_category_id`='$cat_id' WHERE `id`='$c_id'");
+        if ($upd_p_Q) :
+            $statusMsg = '<h6 class="alert alert-success text-center">' . $prod_name . ' has been updated.</h6>';
+        endif;
+    endif;
     echo $statusMsg;
 }
 
