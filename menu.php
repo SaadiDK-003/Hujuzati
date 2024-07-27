@@ -24,48 +24,25 @@ $cat_filter_m = $db->query("SELECT * FROM `categories`");
                 <div class="row">
                     <div class="col-12 text-center mb-5 d-none d-md-block">
                         <div class="filter-buttons d-flex gap-3 justify-content-center">
+                            <a href="./menu.php" class="btn border-primary border-2">All</a>
                             <?php while ($cat_filter_ = mysqli_fetch_object($cat_filter_d)) : ?>
-                                <a href="#!" data-filter="<?= $cat_filter_->id ?>" class="btn btn-primary"><?= $cat_filter_->category_name ?></a>
+                                <a href="#!" data-filter="<?= $cat_filter_->id ?>" class="btn btn-primary filter_btn"><?= $cat_filter_->category_name ?></a>
                             <?php endwhile; ?>
                         </div>
                     </div>
                     <div class="col-12 mb-5 d-block d-md-none">
-                        <form action="">
-                            <div class="form-group">
-                                <label for="filter_">Select Category</label>
-                                <select name="filter_" id="filter_" class="form-select">
-                                    <?php while ($cat_filter_ = mysqli_fetch_object($cat_filter_m)) : ?>
-                                        <option value="<?= $cat_filter_->id ?>"><?= $cat_filter_->category_name ?></option>
-                                    <?php endwhile; ?>
-                                </select>
-                            </div>
-                        </form>
-                    </div>
-                    <?php
-                    $prod_Q = $db->query("CALL `get_all_products`()");
-                    while ($list_p = mysqli_fetch_object($prod_Q)) :
-                    ?>
-                        <div class="col-10 col-md-3 mx-auto mx-md-0 mb-4">
-                            <div class="card border rounded-2 p-2 d-flex justify-content-between">
-                                <div class="img overflow-hidden rounded-2">
-                                    <img src="<?= $list_p->prod_img ?>" class="w-100" alt="product-img">
-                                </div>
-                                <div class="content position-relative">
-                                    <div class="title d-flex align-items-center justify-content-between">
-                                        <h5><?= $list_p->prod_name ?></h5><span class="bg-secondary text-white px-2 py-1 rounded-2 category h6"><?= $list_p->category_name ?></span>
-                                    </div>
-                                    <?php if ($list_p->prod_disc_price != 0.00) : ?>
-                                        <span class="disc-price fw-bold text-success"><?= CURRENCY ?><?= $list_p->prod_disc_price ?></span>
-                                        <span class="reg-price text-decoration-line-through text-danger"><?= CURRENCY ?><?= $list_p->prod_reg_price ?></span>
-                                    <?php else : ?>
-                                        <span class="reg-price fw-bold"><?= CURRENCY ?><?= $list_p->prod_reg_price ?></span>
-                                    <?php endif; ?>
-                                    <p class="line-clamp-2"><?= $list_p->prod_desc ?></p>
-                                    <a href="#!" data-id="<?= $list_p->cafe_id ?>" class="btn btn-primary btn-sm cafe-info">Cafe Info</a>
-                                </div>
-                            </div>
+                        <a href="./menu.php" class="btn btn-primary w-100 text-center">All</a>
+                        <div class="form-group mt-2">
+                            <label for="filter_">Select Category</label>
+                            <select name="filter_" id="filter_" class="form-select">
+                                <?php while ($cat_filter_ = mysqli_fetch_object($cat_filter_m)) : ?>
+                                    <option value="<?= $cat_filter_->id ?>"><?= $cat_filter_->category_name ?></option>
+                                <?php endwhile; ?>
+                            </select>
                         </div>
-                    <?php endwhile; ?>
+                    </div>
+                </div>
+                <div class="row filter_container position-relative">
                 </div>
             </div>
         </section>
@@ -126,6 +103,58 @@ $cat_filter_m = $db->query("SELECT * FROM `categories`");
 
     <script>
         $(document).ready(function() {
+            $.ajax({
+                url: 'ajax/products_by_category.php',
+                beforeSend: function() {
+                    $('.filter_container').addClass('loading');
+                },
+                success: function(response) {
+                    $('.filter_container').removeClass('loading');
+                    $(".filter_container").html(response);
+                }
+
+            });
+
+            // filter by ID
+            $(document).on('click', '.filter_btn', function(e) {
+                let filter_id = $(this).data('filter');
+                $.ajax({
+                    url: 'ajax/products_by_category.php',
+                    method: 'post',
+                    data: {
+                        filter_id: filter_id
+                    },
+                    beforeSend: function() {
+                        $('.filter_container').addClass('loading');
+                    },
+                    success: function(response) {
+                        $('.filter_container').removeClass('loading');
+                        $(".filter_container").html(response);
+                    }
+
+                });
+            });
+
+            // filter by dropDown
+            $(document).on('change', 'select[name="filter_"]', function(e) {
+                let filter_id = $(this).val();
+                $.ajax({
+                    url: 'ajax/products_by_category.php',
+                    method: 'post',
+                    data: {
+                        filter_id: filter_id
+                    },
+                    beforeSend: function() {
+                        $('.filter_container').addClass('loading');
+                    },
+                    success: function(response) {
+                        $('.filter_container').removeClass('loading');
+                        $(".filter_container").html(response);
+                    }
+
+                });
+            });
+
             $(document).on("click", ".cafe-info", function(e) {
                 e.preventDefault();
                 $('#cafeInfoModal').modal('show');

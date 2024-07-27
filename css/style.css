@@ -295,6 +295,29 @@ body.menu_page .card .img, body.cafe_menu_page .card .img {
   width: 100%;
   height: 180px;
 }
+body.menu_page .filter_container.loading::before, body.cafe_menu_page .filter_container.loading::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50px;
+  transform: translateX(-50%);
+  rotate: 0deg;
+  background-image: url("https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-6d0b072c3d3f.gif");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 800px;
+  height: 284px;
+  z-index: 3;
+}
+body.menu_page .filter_container.loading::after, body.cafe_menu_page .filter_container.loading::after {
+  content: "";
+  inset: 0;
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  width: 100%;
+  height: 50vh;
+}
 
 @keyframes text_reval {
   from {
