@@ -40,6 +40,9 @@ $edit_r_Q = $db->query("CALL `edit_reservation_visitor`($edit_res_id)");
                     $elapsed = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i;
                     $disabled = ($elapsed >= MINUTES_DIFF) ? 'disabled' : '';
                     // echo $elapsed;
+                    if ($elapsed >= MINUTES_DIFF) :
+                        $db->query("UPDATE `reservation` SET `status`='reserved' WHERE `id`='$edit_res_id'");
+                    endif;
 
                 ?>
                     <div class="row">

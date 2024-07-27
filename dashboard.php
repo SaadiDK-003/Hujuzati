@@ -39,6 +39,7 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                                     <th>Total Tables</th>
                                     <th>Table Location</th>
                                     <th>Events</th>
+                                    <th>Status</th>
                                     <th>Cafe Info</th>
                                     <th>Action</th>
                                 </tr>
@@ -57,10 +58,25 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                                         <td><?= $getRow->total_tables ?></td>
                                         <td><?= $getRow->table_location ?></td>
                                         <td><?= ($getRow->events == '') ? '-' : $getRow->events ?></td>
+                                        <td><?php
+                                            if ($getRow->r_status == 'pending') : ?>
+                                                <span class="btn btn-warning"><?= $getRow->r_status ?></span>
+                                            <?php elseif ($getRow->r_status == 'reserved') : ?>
+                                                <span class="btn btn-info"><?= $getRow->r_status ?></span>
+                                            <?php else : ?>
+                                                <span class="btn btn-success"><?= $getRow->r_status ?></span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td><a href="#!" class="btn btn-secondary cafe-id" data-id="<?= $getRow->cafe_id ?>">Cafe Info</a></td>
                                         <td>
-                                            <a href="edit_reservation.php?id=<?= $getRow->r_id ?>" class="btn btn-primary btn-sm edit-info">Edit</a>
-                                            <a href="#!" data-id="<?= $getRow->r_id ?>" class="btn btn-danger btn-sm del-info">Delete</a>
+                                            <?php if ($getRow->r_status == 'completed') : ?>
+                                                <a href="#!" class="btn btn-primary">Review</a>
+                                            <?php elseif ($getRow->r_status == 'reserved') : ?>
+                                                -
+                                            <?php else : ?>
+                                                <a href="edit_reservation.php?id=<?= $getRow->r_id ?>" class="btn btn-primary btn-sm edit-info">Edit</a>
+                                                <a href="#!" data-id="<?= $getRow->r_id ?>" class="btn btn-danger btn-sm del-info">Delete</a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endwhile;
@@ -76,6 +92,7 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                                     <th>Total Tables</th>
                                     <th>Table Location</th>
                                     <th>Events</th>
+                                    <th>Status</th>
                                     <th>Cafe Info</th>
                                     <th>Action</th>
                                 </tr>

@@ -46,8 +46,9 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                                     <th>Total Tables</th>
                                     <th>Table Location</th>
                                     <th>Events</th>
+                                    <th>Status</th>
                                     <th>Visitor Info</th>
-                                    <!-- <th>Action</th> -->
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,8 +65,17 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                                         <td><?= $getRow->total_tables ?></td>
                                         <td><?= $getRow->table_location ?></td>
                                         <td><?= ($getRow->events == '') ? '-' : $getRow->events ?></td>
+                                        <td><?php
+                                            if ($getRow->r_status == 'pending') : ?>
+                                                <span class="btn btn-warning"><?= $getRow->r_status ?></span>
+                                            <?php elseif ($getRow->r_status == 'reserved') : ?>
+                                                <span class="btn btn-info"><?= $getRow->r_status ?></span>
+                                            <?php else : ?>
+                                                <span class="btn btn-success"><?= $getRow->r_status ?></span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td><a href="#!" class="btn btn-secondary visitor-id" data-id="<?= $getRow->visitor_id ?>">Visitor Info</a></td>
-                                        <!-- <td><a href="#!" data-id="< ?= $getRow->r_id ?>" class="btn btn-primary btn-sm edit-info">Edit</a></td> -->
+                                        <td><a href="#!" data-id="<?= $getRow->r_id ?>" class="btn btn-primary btn-sm update-info">Update</a></td>
                                     </tr>
                                 <?php endwhile;
                                 $getR_Q->close();
@@ -80,8 +90,9 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                                     <th>Total Tables</th>
                                     <th>Table Location</th>
                                     <th>Events</th>
+                                    <th>Status</th>
                                     <th>Visitor Info</th>
-                                    <!-- <th>Action</th> -->
+                                    <th>Action</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -152,7 +163,7 @@ if (isLoggedin() === false || $userRole == 'visitor') {
         </section>
     </main>
 
-    <!-- Modal -->
+    <!-- Modal Visitor Info -->
     <div class="modal fade" id="visitorInfoModal" tabindex="-1" aria-labelledby="visitorInfoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -191,6 +202,40 @@ if (isLoggedin() === false || $userRole == 'visitor') {
     </div>
 
 
+    <!-- Modal Update Reservation -->
+    <div class="modal fade" id="updateReservationModal" tabindex="-1" aria-labelledby="updateReservationLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateReservationLabel">Visitor Info</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="update-reservation-form">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 msg-show"></div>
+                            <div class="col-12">
+                                <label for="r_status">Status</label>
+                                <select name="r_status" id="r_status" class="form-select" required>
+                                    <option value="" selected hidden>Select Status</option>
+                                    <option value="reserved">Reserved</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancel">Cancel</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="update_res_id" id="update_res_id" value="">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <div class="toast-container position-absolute p-3 bottom-0 end-0">
         <div class="toast align-items-center text-white bg-danger border-0" data-bs-animation="true" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -206,6 +251,7 @@ if (isLoggedin() === false || $userRole == 'visitor') {
 
     <script>
         $(document).ready(function() {
+            // Get Visitor Information
             $(document).on("click", ".visitor-id", function(e) {
                 e.preventDefault();
                 $('#visitorInfoModal').modal('show');
@@ -224,6 +270,33 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                     }
                 });
             });
+
+            // On-Click open modal to update status
+            $(document).on('click', '.update-info', function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                $("#update_res_id").val(id);
+                $('#updateReservationModal').modal('show');
+            });
+
+            // Update Reservation Status ~ Form
+            $(document).on('submit', '#update-reservation-form', function(e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+                $.ajax({
+                    url: 'ajax/update_reservation.php',
+                    method: 'post',
+                    data: formData,
+                    success: function(response) {
+                        $('.msg-show').append(response);
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1800);
+                    }
+                });
+            });
+
+            // Delete Product
             $(document).on('click', '.del-prod', function(e) {
                 e.preventDefault();
                 let id = $(this).data('id');

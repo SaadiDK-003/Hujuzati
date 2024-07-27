@@ -177,6 +177,7 @@ if (isLoggedin() === false) {
 
                         $("#start-time").data("storeOpenTime", storeOpenTime);
                         $("#start-time").data("storeCloseTime", storeCloseTime);
+                        $("#start-time").focus();
                     }
                 });
             });
@@ -205,7 +206,8 @@ if (isLoggedin() === false) {
                             let res = JSON.parse(response);
                             $(".showResponse").addClass(`d-block alert alert-${res.status}`).html(res.msg);
                             setTimeout(() => {
-                                $(".showResponse").removeClass(`d-block alert alert-${res.status}`).html('');
+                                // $(".showResponse").removeClass(`d-block alert alert-${res.status}`).html('');
+                                window.location.href = './dashboard.php';
                             }, 1800);
                         }
                     })
