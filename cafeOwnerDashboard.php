@@ -47,7 +47,7 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                                     <th>Table Location</th>
                                     <th>Events</th>
                                     <th>Visitor Info</th>
-                                    <th>Action</th>
+                                    <!-- <th>Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,7 +65,7 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                                         <td><?= $getRow->table_location ?></td>
                                         <td><?= ($getRow->events == '') ? '-' : $getRow->events ?></td>
                                         <td><a href="#!" class="btn btn-secondary visitor-id" data-id="<?= $getRow->visitor_id ?>">Visitor Info</a></td>
-                                        <td><a href="#!" data-id="<?= $getRow->r_id ?>" class="btn btn-primary btn-sm edit-info">Edit</a></td>
+                                        <!-- <td><a href="#!" data-id="< ?= $getRow->r_id ?>" class="btn btn-primary btn-sm edit-info">Edit</a></td> -->
                                     </tr>
                                 <?php endwhile;
                                 $getR_Q->close();
@@ -81,7 +81,7 @@ if (isLoggedin() === false || $userRole == 'visitor') {
                                     <th>Table Location</th>
                                     <th>Events</th>
                                     <th>Visitor Info</th>
-                                    <th>Action</th>
+                                    <!-- <th>Action</th> -->
                                 </tr>
                             </tfoot>
                         </table>

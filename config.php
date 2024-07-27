@@ -9,7 +9,7 @@ define('FILE_PATH', __FILE__);
 define('TITLE', 'Coffee Latera');
 define('FOLDER', 'Hujuzati');
 define('CURRENCY', 'SAR ');
-define('MINUTES_DIFF', 30);
+define('MINUTES_DIFF', 10);
 
 date_default_timezone_set('Asia/Karachi');
 

@@ -1,5 +1,8 @@
 <?php
 require_once './core/database.php';
+
+$cat_filter_d = $db->query("SELECT * FROM `categories`");
+$cat_filter_m = $db->query("SELECT * FROM `categories`");
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +22,25 @@ require_once './core/database.php';
         <section class="menu">
             <div class="container my-5">
                 <div class="row">
+                    <div class="col-12 text-center mb-5 d-none d-md-block">
+                        <div class="filter-buttons d-flex gap-3 justify-content-center">
+                            <?php while ($cat_filter_ = mysqli_fetch_object($cat_filter_d)) : ?>
+                                <a href="#!" data-filter="<?= $cat_filter_->id ?>" class="btn btn-primary"><?= $cat_filter_->category_name ?></a>
+                            <?php endwhile; ?>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-5 d-block d-md-none">
+                        <form action="">
+                            <div class="form-group">
+                                <label for="filter_">Select Category</label>
+                                <select name="filter_" id="filter_" class="form-select">
+                                    <?php while ($cat_filter_ = mysqli_fetch_object($cat_filter_m)) : ?>
+                                        <option value="<?= $cat_filter_->id ?>"><?= $cat_filter_->category_name ?></option>
+                                    <?php endwhile; ?>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
                     <?php
                     $prod_Q = $db->query("CALL `get_all_products`()");
                     while ($list_p = mysqli_fetch_object($prod_Q)) :
@@ -75,7 +97,7 @@ require_once './core/database.php';
                             </div>
                         </div>
                         <div class="col-12">
-                            <h4 class="bg-secondary text-white pt-2 pb-1 text-uppercase rounded-2">Shop Info</h4>
+                            <h4 class="bg-secondary text-white pt-2 pb-1 text-uppercase rounded-2">Cafe Info</h4>
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="text">
@@ -85,7 +107,7 @@ require_once './core/database.php';
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="text">
-                                <h5>Shop Timing</h5>
+                                <h5>Cafe Timing</h5>
                                 <h6 id="shopOpen"></h6>
                                 <h6 id="shopClose"></h6>
                             </div>

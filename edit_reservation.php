@@ -38,7 +38,7 @@ $edit_r_Q = $db->query("CALL `edit_reservation_visitor`($edit_res_id)");
                     $datetime2 = new DateTime($get_r_data->created_date);
                     $interval = $datetime1->diff($datetime2);
                     $elapsed = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i;
-                    $disabled = ($elapsed >= 30) ? 'disabled' : '';
+                    $disabled = ($elapsed >= MINUTES_DIFF) ? 'disabled' : '';
                     // echo $elapsed;
 
                 ?>
@@ -245,7 +245,7 @@ $edit_r_Q = $db->query("CALL `edit_reservation_visitor`($edit_res_id)");
                 console.log(date1);
                 var d1 = new Date(date1);
                 var d2 = new Date(d1);
-                d2.setMinutes(d1.getMinutes() + 30);
+                d2.setMinutes(d1.getMinutes() + 60);
 
                 // Formatting d2 to "yyyy-MM-ddTHH:mm"
                 let year = d2.getFullYear();

@@ -281,7 +281,9 @@ body.admin_dashboard_page table#example1 td, body.cafe_owner_dashboard_page tabl
 body.cafe_owner_dashboard_page table#example td, body.cafe_owner_dashboard_page table#example1 th,
 body.cafe_owner_dashboard_page table#example1 td, body.visitor_dashboard_page table#example th,
 body.visitor_dashboard_page table#example td, body.visitor_dashboard_page table#example1 th,
-body.visitor_dashboard_page table#example1 td {
+body.visitor_dashboard_page table#example1 td, body.add_categories_page table#example th,
+body.add_categories_page table#example td, body.add_categories_page table#example1 th,
+body.add_categories_page table#example1 td {
   text-align: center;
   vertical-align: middle;
 }

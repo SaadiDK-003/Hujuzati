@@ -218,7 +218,7 @@ if (isLoggedin() === false) {
                 console.log(date1);
                 var d1 = new Date(date1);
                 var d2 = new Date(d1);
-                d2.setMinutes(d1.getMinutes() + 30);
+                d2.setMinutes(d1.getMinutes() + 60);
 
                 // Formatting d2 to "yyyy-MM-ddTHH:mm"
                 let year = d2.getFullYear();

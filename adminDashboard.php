@@ -29,7 +29,7 @@ if (isLoggedin() === false || $userRole != 'admin') {
                     <div class="col-12 my-5 position-relative">
                         <div class="d-flex justify-content-center gap-3">
                             <a href="./add_users.php" class="btn btn-secondary">Add Users</a>
-                            <a href="#!" class="btn btn-primary">Add Categories</a>
+                            <a href="./add_categories.php" class="btn btn-primary">Add Categories</a>
                         </div>
                         <span id="del-msg" class="position-absolute top-0 end-0 alert"></span>
                     </div>

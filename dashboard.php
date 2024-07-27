@@ -110,7 +110,7 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                             </div>
                         </div>
                         <div class="col-12">
-                            <h4 class="bg-secondary text-white pt-2 pb-1 text-uppercase rounded-2">Shop Info</h4>
+                            <h4 class="bg-secondary text-white pt-2 pb-1 text-uppercase rounded-2">Cafe Info</h4>
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="text">
@@ -120,7 +120,7 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="text">
-                                <h5>Shop Timing</h5>
+                                <h5>Cafe Timing</h5>
                                 <h6 id="shopOpen"></h6>
                                 <h6 id="shopClose"></h6>
                             </div>

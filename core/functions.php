@@ -250,3 +250,36 @@ function add_user($POST)
         ';
     }
 }
+
+
+function add_category($POST)
+{
+    global $db;
+    $cat_name = $POST['category_name'];
+    $add_cat_Q = $db->query("INSERT INTO `categories` (category_name,status) VALUES('$cat_name','1')");
+    if ($add_cat_Q) {
+        return '<h6 class="text-center alert alert-success">' . $cat_name . ' has been added.</h6>
+        <script>
+        setTimeout(function(){
+            window.location.href = "./add_categories.php";
+        },1800);
+        </script>
+        ';
+    }
+}
+function edit_category($POST)
+{
+    global $db;
+    $cat_name = $POST['category_name'];
+    $editCat_ID = $POST['editCat_ID'];
+    $add_cat_Q = $db->query("UPDATE `categories` SET `category_name`='$cat_name' WHERE `id`='$editCat_ID'");
+    if ($add_cat_Q) {
+        return '<h6 class="text-center alert alert-success">' . $cat_name . ' has been updated.</h6>
+        <script>
+        setTimeout(function(){
+            window.location.href = "./add_categories.php";
+        },1800);
+        </script>
+        ';
+    }
+}
