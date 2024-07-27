@@ -27,6 +27,9 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                         <h5>Welcome, <?= $userName ?></h5>
                     </div>
                     <div class="col-12">
+                        <h3>Reservation Table</h3>
+                    </div>
+                    <div class="col-12">
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
