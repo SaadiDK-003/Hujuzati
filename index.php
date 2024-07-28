@@ -38,7 +38,7 @@ require_once 'core/database.php';
                     <div class="col-12 col-md-6 d-none">
                         <div data-bs-toggle="calendar" id="calendar_inline" class="col shadow rounded"></div>
                     </div>
-                    <div class="col-12 my-4">
+                    <div class="col-12 mt-4 mb-2">
                         <h3 class="text-center">Reviews</h3>
                     </div>
                     <div class="col-12 mb-4">
