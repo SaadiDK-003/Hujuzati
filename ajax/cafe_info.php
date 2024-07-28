@@ -13,8 +13,11 @@ if (isset($_POST['cafeID'])) :
             <div class="text"><span class="d-block fw-bold">Owner Phone</span><?= $cafe_data->phone ?></div>
         </div>
         <div class="item">
-            <div class="text"><span class="d-block fw-bold">Store Name</span><?= $cafe_data->store_name ?></div>
-            <div class="text"><a class="btn btn-primary btn-sm" href="./cafe_menu.php?cafe_id=<?= $cafeID ?>&cafe_name=<?= $cafe_data->store_name ?>" target="_blank">Cafe Menu</a></div>
+            <div class="text"><span class="d-block fw-bold">Cafe Name</span><?= $cafe_data->store_name ?></div>
+            <div class="text">
+                <a class="btn btn-primary btn-sm" href="./cafe_menu.php?cafe_id=<?= $cafeID ?>&cafe_name=<?= $cafe_data->store_name ?>" target="_blank">Menu</a>
+                <a class="btn btn-primary btn-sm" href="./cafe_review.php?cafe_id=<?= $cafeID ?>&cafe_name=<?= $cafe_data->store_name ?>" target="_blank">Reviews</a>
+            </div>
         </div>
         <div class="item">
             <div class="text"><span class="d-block fw-bold">Store Location</span><?= $cafe_data->store_location ?></div>

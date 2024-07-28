@@ -283,3 +283,22 @@ function edit_category($POST)
         ';
     }
 }
+
+
+function reviews($POST, $userID)
+{
+    global $db;
+    $msg = '';
+    $stars = $POST['checked_count'];
+    $comments = $POST['comments'];
+    $cafe_id = $POST['cafe_id'];
+    $res_id = $POST['res_id'];
+    $reviewQ = $db->query("INSERT INTO `reviews` (rating,comments,cafe_id,user_id) VALUES('$stars','$comments','$cafe_id','$userID')");
+    if ($reviewQ) :
+        $db->query("UPDATE `reservation` SET `reviewed`='1' WHERE `id`='$res_id'");
+        $msg = '<h6 class="text-center alert alert-success">Review has been added.</h6>';
+    else :
+        $msg = '<h6 class="text-center alert alert-danger">Something went wrong.</h6>';
+    endif;
+    return $msg;
+}

@@ -63,6 +63,11 @@ if (isLoggedin() === true) {
 
 
     <?php include './includes/js_links.php'; ?>
+    <script>
+        $(document).ready(function() {
+            $("#email").focus();
+        });
+    </script>
 </body>
 
 </html>

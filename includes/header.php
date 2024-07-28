@@ -21,12 +21,12 @@
             </div>
             <div class="col-3 content-center gap-3 flex-column flex-md-row">
                 <?php if (isLoggedin() === true) : ?>
-                    <a class="btn btn-primary border border-3" href="reservation.php">Reservation</a>
                     <?php if ($userRole == 'admin') : ?>
                         <a class="btn btn-primary border border-3" href="adminDashboard.php">Dashboard</a>
                     <?php elseif ($userRole == 'cafe_owner') : ?>
                         <a class="btn btn-primary border border-3" href="cafeOwnerDashboard.php">Dashboard</a>
                     <?php else : ?>
+                        <a class="btn btn-primary border border-3" href="reservation.php">Reservation</a>
                         <a class="btn btn-primary border border-3" href="dashboard.php">Dashboard</a>
                     <?php endif; ?>
                     <a class="btn btn-danger border border-3" href="logout.php">Logout</a>

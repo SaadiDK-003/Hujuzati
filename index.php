@@ -27,14 +27,15 @@ require_once 'core/database.php';
         <section class="calendar">
             <div class="container">
                 <div class="row">
-                    <div class="col-12 col-md-6 position-relative">
-                        <div class="content_">
+                    <div class="col-12 col-md-8 mx-auto position-relative">
+                        <div class="text-center">
                             <h2 class="text-center">Book Your Reservation</h2>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab necessitatibus ipsa velit molestiae, illo nam itaque doloremque modi quibusdam reiciendis at, quidem ratione illum qui adipisci atque deleniti reprehenderit quas.</p>
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi, qui inventore veritatis iusto non ex quia eum porro, harum dolores tenetur. Repellendus distinctio, ea fuga recusandae architecto consectetur et nulla autem exercitationem harum quidem aperiam, deserunt perspiciatis adipisci ducimus laborum laboriosam. Numquam nemo optio eaque possimus esse tenetur accusamus obcaecati.</p>
                             <a href="reservation.php" class="btn btn-primary">Book Your Reservation</a>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <!-- Calender -->
+                    <div class="col-12 col-md-6 d-none">
                         <div data-bs-toggle="calendar" id="calendar_inline" class="col shadow rounded"></div>
                     </div>
                 </div>
@@ -45,8 +46,8 @@ require_once 'core/database.php';
 
 
     <?php include './includes/js_links.php'; ?>
-    <script src="js/jquery.bs.calendar.min.js"></script>
-    <script src="js/calendar.js"></script>
+    <!-- <script src="js/jquery.bs.calendar.min.js"></script> -->
+    <!-- <script src="js/calendar.js"></script> -->
     <script>
         $(document).ready(function() {
             setTimeout(() => {

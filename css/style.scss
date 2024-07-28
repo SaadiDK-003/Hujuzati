@@ -278,13 +278,76 @@ body {
           z-index: 3;
         }
         &::after {
-          content: '';
+          content: "";
           inset: 0;
           position: absolute;
           z-index: 1;
           background-color: #fff;
           width: 100%;
           height: 50vh;
+        }
+      }
+    }
+  }
+  &.reviews_page {
+    .checkbox-group {
+      .form-check {
+        padding: 0;
+        margin: 0;
+        .form-check-label {
+          i {
+            color: var(--light-gray);
+            cursor: pointer;
+          }
+        }
+        .form-check-input {
+          &:checked ~ .form-check-label i {
+            color: gold;
+          }
+          &:checked ~ .form-check-label ~ .form-check-label i {
+            color: gold;
+          }
+        }
+      }
+    }
+  }
+  &.cafe_reviews_page {
+    .review-card {
+      min-height: 230px;
+      .users-name {
+        h5 {
+          top: 3px;
+          right: 0;
+        }
+      }
+      .ratings {
+        i {
+          color: var(--light-gray);
+        }
+        &.rate-1 {
+          i:nth-child(n + 1):nth-child(-n + 1) {
+            color: var(--gold);
+          }
+        }
+        &.rate-2 {
+          i:nth-child(n + 1):nth-child(-n + 2) {
+            color: var(--gold);
+          }
+        }
+        &.rate-3 {
+          i:nth-child(n + 1):nth-child(-n + 3) {
+            color: var(--gold);
+          }
+        }
+        &.rate-4 {
+          i:nth-child(n + 1):nth-child(-n + 4) {
+            color: var(--gold);
+          }
+        }
+        &.rate-5 {
+          i {
+            color: var(--gold);
+          }
         }
       }
     }

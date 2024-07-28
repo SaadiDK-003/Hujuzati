@@ -26,6 +26,7 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                         <h1>Dashboard</h1>
                         <h5>Welcome, <?= $userName ?></h5>
                     </div>
+                    <!-- Reservation Table Start -->
                     <div class="col-12">
                         <h3>Reservation Table</h3>
                     </div>
@@ -70,7 +71,11 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                                         <td><a href="#!" class="btn btn-secondary cafe-id" data-id="<?= $getRow->cafe_id ?>">Cafe Info</a></td>
                                         <td>
                                             <?php if ($getRow->r_status == 'completed') : ?>
-                                                <a href="#!" class="btn btn-primary">Review</a>
+                                                <?php if ($getRow->reviewed == 1) : ?>
+                                                    -
+                                                <?php else : ?>
+                                                    <a href="./add_reviews.php?cafe_id=<?= $getRow->cafe_id ?>&res_id=<?= $getRow->r_id ?>" class="btn btn-primary">Review</a>
+                                                <?php endif; ?>
                                             <?php elseif ($getRow->r_status == 'reserved') : ?>
                                                 -
                                             <?php else : ?>
@@ -99,6 +104,87 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                             </tfoot>
                         </table>
                     </div>
+                    <!-- Reservation Table End -->
+
+                    <!-- Completed Reservations Start -->
+                    <div class="col-12 mt-5">
+                        <h3>Completed Reservations</h3>
+                    </div>
+                    <div class="col-12">
+                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Start Time</th>
+                                    <th>Total Members</th>
+                                    <th>Total Tables</th>
+                                    <th>Table Location</th>
+                                    <th>Events</th>
+                                    <th>Status</th>
+                                    <th>Cafe Info</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $date = '';
+                                $getR_Q = $db->query("CALL `get_reservation_for_visitor_completed`($userID)");
+                                while ($getRow = mysqli_fetch_object($getR_Q)) :
+                                    $date = date('d-M-Y h:i A', strtotime($getRow->start_time));
+                                ?>
+                                    <tr>
+                                        <td><?= $getRow->r_id ?></td>
+                                        <td><?= $date ?></td>
+                                        <td><?= $getRow->total_members ?></td>
+                                        <td><?= $getRow->total_tables ?></td>
+                                        <td><?= $getRow->table_location ?></td>
+                                        <td><?= ($getRow->events == '') ? '-' : $getRow->events ?></td>
+                                        <td><?php
+                                            if ($getRow->r_status == 'pending') : ?>
+                                                <span class="btn btn-warning"><?= $getRow->r_status ?></span>
+                                            <?php elseif ($getRow->r_status == 'reserved') : ?>
+                                                <span class="btn btn-info"><?= $getRow->r_status ?></span>
+                                            <?php else : ?>
+                                                <span class="btn btn-success"><?= $getRow->r_status ?></span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><a href="#!" class="btn btn-secondary cafe-id" data-id="<?= $getRow->cafe_id ?>">Cafe Info</a></td>
+                                        <td>
+                                            <?php if ($getRow->r_status == 'completed') : ?>
+                                                <?php if ($getRow->reviewed == 1) : ?>
+                                                    -
+                                                <?php else : ?>
+                                                    <a href="./add_reviews.php?cafe_id=<?= $getRow->cafe_id ?>&res_id=<?= $getRow->r_id ?>" class="btn btn-primary">Review</a>
+                                                <?php endif; ?>
+                                            <?php elseif ($getRow->r_status == 'reserved') : ?>
+                                                -
+                                            <?php else : ?>
+                                                <a href="edit_reservation.php?id=<?= $getRow->r_id ?>" class="btn btn-primary btn-sm edit-info">Edit</a>
+                                                <a href="#!" data-id="<?= $getRow->r_id ?>" class="btn btn-danger btn-sm del-info">Delete</a>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endwhile;
+                                $getR_Q->close();
+                                $db->next_result();
+                                ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Start Time</th>
+                                    <th>Total Members</th>
+                                    <th>Total Tables</th>
+                                    <th>Table Location</th>
+                                    <th>Events</th>
+                                    <th>Status</th>
+                                    <th>Cafe Info</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- Completed Reservations End -->
                 </div>
             </div>
         </section>
