@@ -22,34 +22,35 @@ require_once './core/database.php';
                     <div class="col-12 text-center mb-4">
                         <h1><?= TITLE ?> | Cafe Reviews</h1>
                     </div>
-                </div>
-                <div class="cafe-reviews owl-carousel">
-                    <!-- item start -->
-                    <?php
-                    $get_r_Q = $db->query("CALL `get_all_reviews`()");
-                    while ($reviews = mysqli_fetch_object($get_r_Q)) :
-                    ?>
-                        <div class="item">
-                            <div class="review-card border border-2 rounded-2 p-4">
-                                <div class="users-name position-relative">
-                                    <h6><?= $reviews->visitor_name ?></h6>
-                                    <h5 class="position-absolute btn btn-secondary"><?= $reviews->store_name ?></h5>
+                    <div class="col-12">
+                        <div class="cafe-reviews owl-carousel">
+                            <!-- item start -->
+                            <?php
+                            $get_r_Q = $db->query("CALL `get_all_reviews`()");
+                            while ($reviews = mysqli_fetch_object($get_r_Q)) :
+                            ?>
+                                <div class="item">
+                                    <div class="review-card border border-2 rounded-2 p-4">
+                                        <div class="users-name position-relative">
+                                            <h6><?= $reviews->visitor_name ?></h6>
+                                            <h5 class="position-absolute btn btn-secondary"><?= $reviews->store_name ?></h5>
+                                        </div>
+                                        <div class="ratings mb-2 <?= 'rate-' . $reviews->stars ?>">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="text">
+                                            <p><?= $reviews->comments ?></p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="ratings mb-2 <?= 'rate-' . $reviews->stars ?>">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="text">
-                                    <p><?= $reviews->comments ?></p>
-                                </div>
-                            </div>
+                            <?php endwhile; ?>
+                            <!-- item start end -->
                         </div>
-                    <?php endwhile; ?>
-                    <!-- item start end -->
-
+                    </div>
                 </div>
             </div>
         </section>

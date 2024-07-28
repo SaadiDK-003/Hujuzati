@@ -311,7 +311,9 @@ body {
       }
     }
   }
-  &.cafe_reviews_page {
+  &.cafe_review_page,
+  &.cafe_reviews_page,
+  &.home_page {
     .review-card {
       min-height: 230px;
       .users-name {

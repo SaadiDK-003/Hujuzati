@@ -38,6 +38,40 @@ require_once 'core/database.php';
                     <div class="col-12 col-md-6 d-none">
                         <div data-bs-toggle="calendar" id="calendar_inline" class="col shadow rounded"></div>
                     </div>
+                    <div class="col-12 my-4">
+                        <h3 class="text-center">Reviews</h3>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <div class="cafe-reviews owl-carousel">
+                            <!-- item start -->
+                            <?php
+                            $get_r_Q = $db->query("CALL `get_last_five_reviews`()");
+                            while ($reviews = mysqli_fetch_object($get_r_Q)) :
+                            ?>
+                                <div class="item">
+                                    <div class="review-card border border-2 rounded-2 p-4">
+                                        <div class="users-name position-relative">
+                                            <h6><?= $reviews->visitor_name ?></h6>
+                                            <h5 class="position-absolute btn btn-secondary"><?= $reviews->store_name ?></h5>
+                                        </div>
+                                        <div class="ratings mb-2 <?= 'rate-' . $reviews->stars ?>">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="text">
+                                            <p><?= $reviews->comments ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endwhile;
+                            $get_r_Q->close();
+                            $db->next_result(); ?>
+                            <!-- item start end -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -53,6 +87,25 @@ require_once 'core/database.php';
             setTimeout(() => {
                 $('.hero-content h1.smoke-text').addClass('smoke');
             }, 2800);
+
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                autoplay: true,
+                nav: false,
+                dots: false,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 3
+                    }
+                }
+            });
         });
     </script>
 </body>

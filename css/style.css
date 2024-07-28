@@ -333,29 +333,29 @@ body.reviews_page .checkbox-group .form-check .form-check-input:checked ~ .form-
 body.reviews_page .checkbox-group .form-check .form-check-input:checked ~ .form-check-label ~ .form-check-label i {
   color: gold;
 }
-body.cafe_reviews_page .review-card {
+body.cafe_review_page .review-card, body.cafe_reviews_page .review-card, body.home_page .review-card {
   min-height: 230px;
 }
-body.cafe_reviews_page .review-card .users-name h5 {
+body.cafe_review_page .review-card .users-name h5, body.cafe_reviews_page .review-card .users-name h5, body.home_page .review-card .users-name h5 {
   top: 3px;
   right: 0;
 }
-body.cafe_reviews_page .review-card .ratings i {
+body.cafe_review_page .review-card .ratings i, body.cafe_reviews_page .review-card .ratings i, body.home_page .review-card .ratings i {
   color: var(--light-gray);
 }
-body.cafe_reviews_page .review-card .ratings.rate-1 i:nth-child(n+1):nth-child(-n+1) {
+body.cafe_review_page .review-card .ratings.rate-1 i:nth-child(n+1):nth-child(-n+1), body.cafe_reviews_page .review-card .ratings.rate-1 i:nth-child(n+1):nth-child(-n+1), body.home_page .review-card .ratings.rate-1 i:nth-child(n+1):nth-child(-n+1) {
   color: var(--gold);
 }
-body.cafe_reviews_page .review-card .ratings.rate-2 i:nth-child(n+1):nth-child(-n+2) {
+body.cafe_review_page .review-card .ratings.rate-2 i:nth-child(n+1):nth-child(-n+2), body.cafe_reviews_page .review-card .ratings.rate-2 i:nth-child(n+1):nth-child(-n+2), body.home_page .review-card .ratings.rate-2 i:nth-child(n+1):nth-child(-n+2) {
   color: var(--gold);
 }
-body.cafe_reviews_page .review-card .ratings.rate-3 i:nth-child(n+1):nth-child(-n+3) {
+body.cafe_review_page .review-card .ratings.rate-3 i:nth-child(n+1):nth-child(-n+3), body.cafe_reviews_page .review-card .ratings.rate-3 i:nth-child(n+1):nth-child(-n+3), body.home_page .review-card .ratings.rate-3 i:nth-child(n+1):nth-child(-n+3) {
   color: var(--gold);
 }
-body.cafe_reviews_page .review-card .ratings.rate-4 i:nth-child(n+1):nth-child(-n+4) {
+body.cafe_review_page .review-card .ratings.rate-4 i:nth-child(n+1):nth-child(-n+4), body.cafe_reviews_page .review-card .ratings.rate-4 i:nth-child(n+1):nth-child(-n+4), body.home_page .review-card .ratings.rate-4 i:nth-child(n+1):nth-child(-n+4) {
   color: var(--gold);
 }
-body.cafe_reviews_page .review-card .ratings.rate-5 i {
+body.cafe_review_page .review-card .ratings.rate-5 i, body.cafe_reviews_page .review-card .ratings.rate-5 i, body.home_page .review-card .ratings.rate-5 i {
   color: var(--gold);
 }
 
