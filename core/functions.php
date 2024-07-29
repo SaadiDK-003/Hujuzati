@@ -285,7 +285,7 @@ function edit_category($POST)
 }
 
 
-function reviews($POST, $userID)
+function add_reviews($POST, $userID)
 {
     global $db;
     $msg = '';
@@ -296,7 +296,13 @@ function reviews($POST, $userID)
     $reviewQ = $db->query("INSERT INTO `reviews` (rating,comments,cafe_id,user_id) VALUES('$stars','$comments','$cafe_id','$userID')");
     if ($reviewQ) :
         $db->query("UPDATE `reservation` SET `reviewed`='1' WHERE `id`='$res_id'");
-        $msg = '<h6 class="text-center alert alert-success">Review has been added.</h6>';
+        $msg = '<h6 class="text-center alert alert-success">Review has been added.</h6>
+        <script>
+        setTimeout(function(){
+            window.location.href = "./dashboard.php";
+        }, 1800);
+        </script>
+        ';
     else :
         $msg = '<h6 class="text-center alert alert-danger">Something went wrong.</h6>';
     endif;

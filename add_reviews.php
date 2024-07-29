@@ -28,7 +28,7 @@ if (isLoggedin() === false || $userRole == 'cafe_owner') {
                     <div class="col-10 col-md-3 mx-auto">
                         <?php
                         if (isset($_POST['submit'])) :
-                            echo reviews($_POST, $userID);
+                            echo add_reviews($_POST, $userID);
                         ?>
                         <?php endif; ?>
                         <form action="" method="post">
