@@ -234,7 +234,7 @@ $edit_r_Q = $db->query("CALL `edit_reservation_visitor`($edit_res_id)");
                             let res = JSON.parse(response);
                             $(".showResponse").addClass(`d-block alert alert-${res.status}`).html(res.msg);
                             setTimeout(() => {
-                                window.location.href = history.go(-1);
+                                window.location.href = "./dashboard.php";
                                 // $(".showResponse").removeClass(`d-block alert alert-${res.status}`).html('');
                             }, 1800);
                         }
