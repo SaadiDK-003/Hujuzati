@@ -11,7 +11,7 @@ if (isLoggedin() === true) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= TITLE ?> | Login</title>
+    <title><?= TITLE ?> | Forget Password</title>
     <?php include './includes/css_links.php'; ?>
     <link rel="stylesheet" href="./css/style.min.css">
 </head>
@@ -23,14 +23,14 @@ if (isLoggedin() === true) {
             <div class="container my-5">
                 <div class="row">
                     <div class="col-12 text-center">
-                        <h1><?= TITLE ?> | Login</h1>
+                        <h1><?= TITLE ?> | Forget Password</h1>
                     </div>
                     <div class="col-10 col-md-3 mx-auto">
                         <?php
                         if (isset($_POST['submit'])) :
                             $e = $_POST['email'];
-                            $p = $_POST['password'];
-                            echo login($e, $p);
+                            $p = $_POST['phone'];
+                            echo forgetPassword($e, $p);
                         ?>
                         <?php endif; ?>
                         <form action="" method="post">
@@ -43,18 +43,18 @@ if (isLoggedin() === true) {
                                 </div>
                                 <div class="col-12 mb-3">
                                     <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" name="password" id="password" class="form-control" required>
+                                        <label for="phone">Phone</label>
+                                        <input type="tel" name="phone" id="phone" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-12 mb-3">
                                     <div class="form-group d-flex gap-2 justify-content-end">
-                                        <a href="./register.php" class="btn btn-secondary">Register</a>
-                                        <button type="submit" name="submit" id="submit" class="btn btn-success">Login</button>
+                                        <button type="submit" name="submit" id="submit" class="btn btn-success">Reset</button>
                                     </div>
                                 </div>
                                 <div class="col-12 text-center">
-                                    <a href="./forgetPassword.php" class="btn btn-primary">forget your password?</a>
+                                    <a href="./register.php" class="btn btn-secondary">Register</a>
+                                    <a href="./login.php" class="btn btn-primary">Login</a>
                                 </div>
                             </div>
                         </form>

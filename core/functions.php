@@ -42,24 +42,33 @@ function register($POST)
     $r_pwd = $POST['re_password'];
     $response = '';
     $checkEmail = $db->query("SELECT email FROM `users` WHERE `email`='$email'");
-
+    $phone_length = strlen($phone);
+    $pwd_length = strlen($pwd);
     if (mysqli_num_rows($checkEmail) > 0) :
         $response = '<h6 class="text-center alert alert-danger">Email Already Exist.</h6>';
     else :
-        if ($pwd != $r_pwd) :
-            $response = '<h6 class="text-center alert alert-danger">Password & Confirm Password do not match.</h6>';
+        if ($phone_length < 10) :
+            $response = '<h6 class="text-center alert alert-danger">Phone length must be 10.</h6>';
         else :
-            $pwd = md5($pwd);
-            $insertQ = $db->query("INSERT INTO `users` (name,email,password,phone,role) VALUES('$name','$email','$pwd','$phone','visitor')");
-            if ($insertQ) {
-                $response = '<h6 class="text-center alert alert-success">Visitor registered successfully.</h6>
+            if ($pwd_length < 6) :
+                $response = '<h6 class="text-center alert alert-danger">Password length must be 6 characters long.</h6>';
+            else :
+                if ($pwd != $r_pwd) :
+                    $response = '<h6 class="text-center alert alert-danger">Password & Confirm Password do not match.</h6>';
+                else :
+                    $pwd = md5($pwd);
+                    $insertQ = $db->query("INSERT INTO `users` (name,email,password,phone,role) VALUES('$name','$email','$pwd','$phone','visitor')");
+                    if ($insertQ) {
+                        $response = '<h6 class="text-center alert alert-success">Visitor registered successfully.</h6>
                 <script>
                     setTimeout(function(){
                         window.location.href = "./login.php";
                     },1800);
                 </script>
                 ';
-            }
+                    }
+                endif;
+            endif;
         endif;
     endif;
 
@@ -306,5 +315,22 @@ function add_reviews($POST, $userID)
     else :
         $msg = '<h6 class="text-center alert alert-danger">Something went wrong.</h6>';
     endif;
+    return $msg;
+}
+
+
+function forgetPassword($email, $phone)
+{
+    global $db;
+    $msg = '';
+    $checkQ = $db->query("SELECT * FROM `users` WHERE `email`='$email' AND `phone`='$phone'");
+    if (mysqli_num_rows($checkQ) > 0) {
+        $bytes = bin2hex(random_bytes(4));
+        $newPwdMD5 = md5($bytes);
+        $db->query("UPDATE `users` SET `password`='$newPwdMD5' WHERE `email`='$email' AND `phone`='$phone'");
+        $msg = '<h6 class="text-center alert alert-success">Your New Password is: <span class="d-block">' . $bytes . '<span></h6>';
+    } else {
+        $msg = '<h6 class="text-center alert alert-danger">Invalid Credentials.</h6>';
+    }
     return $msg;
 }

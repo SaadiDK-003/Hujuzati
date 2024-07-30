@@ -64,9 +64,9 @@ if (isLoggedin() === true) {
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 mb-3 d-flex align-items-end">
-                                    <div class="form-group d-flex justify-content-between w-100">
+                                    <div class="form-group d-flex gap-2 justify-content-end w-100">
                                         <a href="./login.php" class="btn btn-secondary order-0 order-md-1">login</a>
-                                        <button type="submit" name="submit" id="submit" class="btn btn-primary">Register</button>
+                                        <button type="submit" name="submit" id="submit" class="btn btn-success">Register</button>
                                     </div>
                                 </div>
                             </div>
