@@ -61,9 +61,10 @@ if (isLoggedin() === false) {
                                             <option value="1">Single Person</option>
                                             <option value="2">Two Members</option>
                                             <option value="3">Three Members</option>
-                                            <option value="4">Four Members</option>
+                                            <option value="4">More Three Members</option>
+                                            <!-- <option value="4">Four Members</option>
                                             <option value="5">Five Members</option>
-                                            <option value="6">Six Members</option>
+                                            <option value="6">Six Members</option> -->
                                         </select>
                                     </div>
                                 </div>
@@ -75,8 +76,9 @@ if (isLoggedin() === false) {
                                             <option value="1">One Table</option>
                                             <option value="2">Two Tables</option>
                                             <option value="3">Three Tables</option>
-                                            <option value="4">Four Tables</option>
-                                            <option value="5">Five Tables</option>
+                                            <option value="4">More Three Tables</option>
+                                            <!-- <option value="4">Four Tables</option>
+                                            <option value="5">Five Tables</option> -->
                                         </select>
                                     </div>
                                 </div>
