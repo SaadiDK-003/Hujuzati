@@ -6,10 +6,11 @@ define('DB_PWD', '');
 define('DB_NAME', 'coffee_latera');
 define('DIR_PATH', __DIR__);
 define('FILE_PATH', __FILE__);
+// Site Configuration.
 define('TITLE', 'Coffee Latera');
 define('FOLDER', 'Hujuzati');
 define('CURRENCY', 'SAR ');
-define('MINUTES_DIFF', 10);
+define('MINUTES_DIFF', 60);
 
 date_default_timezone_set('Asia/Karachi');
 
