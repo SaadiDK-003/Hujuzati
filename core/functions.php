@@ -47,8 +47,8 @@ function register($POST)
     if (mysqli_num_rows($checkEmail) > 0) :
         $response = '<h6 class="text-center alert alert-danger">Email Already Exist.</h6>';
     else :
-        if ($phone_length < 10) :
-            $response = '<h6 class="text-center alert alert-danger">Phone length must be 10.</h6>';
+        if ($phone_length > 10) :
+            $response = '<h6 class="text-center alert alert-danger">Phone length must be less than 10.</h6>';
         else :
             if ($pwd_length < 6) :
                 $response = '<h6 class="text-center alert alert-danger">Password length must be 6 characters long.</h6>';
