@@ -48,7 +48,7 @@ function register($POST)
         $response = '<h6 class="text-center alert alert-danger">Email Already Exist.</h6>';
     else :
         if ($phone_length > 9) :
-            $response = '<h6 class="text-center alert alert-danger">Phone length must be less than 10.</h6>';
+            $response = '<h6 class="text-center alert alert-danger">Phone length must be 9.</h6>';
         else :
             if ($pwd_length < 6) :
                 $response = '<h6 class="text-center alert alert-danger">Password length must be 6 characters long.</h6>';
